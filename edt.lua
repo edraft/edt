@@ -191,9 +191,9 @@ local function loadConfig()
     save = {{"control", "s"}},
     close = {{"control", "w"}},
     find = {{"control", "f"}},
-    findnext = {{"control", "g"}, {"control", "n"}, {"f3"}},
+    findnext = {{"control", "n"}, {"f3"}},
 
-    jump = {{'control', 'j'}}
+    jump = {{'control', 'g'}}
   }
 
   if not config then
@@ -245,7 +245,7 @@ local function helpStatusText()
   return prettifyKeybind("Save", "save") ..
          prettifyKeybind("Close", "close") ..
          prettifyKeybind("Find", "find") ..
-         prettifyKeybind('Jump to line', 'jump')
+         prettifyKeybind('Go to line', 'jump')
 end
 
 local currentStatus = ''
@@ -262,20 +262,6 @@ end
 local function getArea()
   local x, y, w, h = term.getGlobalArea()
   return x + currentMargin, y, w - currentMargin, h - 1
-end
-
-local function removePrefix(line, length)
-  if length >= unicode.wlen(line) then
-    return ""
-  else
-    local prefix = unicode.wtrunc(line, length + 1)
-    local suffix = unicode.sub(line, unicode.len(prefix) + 1)
-    length = length - unicode.wlen(prefix)
-    if length > 0 then
-      suffix = (" "):rep(unicode.charWidth(suffix) - length) .. unicode.sub(suffix, 2)
-    end
-    return suffix
-  end
 end
 
 local function lengthToChars(line, length)
